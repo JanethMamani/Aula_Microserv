@@ -2,7 +2,10 @@ package com.fanfiction.rhtrabalhadores.recursos;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,11 @@ import com.fanfiction.rhtrabalhadores.repositorios.TrabalhadorRepositorio;
 @RequestMapping(value = "/trabalhadores")
 public class TrabalhadorRecursos {
 	
+	private static Logger verPortaLogg = LoggerFactory.getLogger(TrabalhadorRecursos.class);
+	
+	@Autowired
+	private Environment envir;
+	
 	@Autowired  //injeta as dependencias da classe 
 	private TrabalhadorRepositorio repositorio;
 	
@@ -28,6 +36,9 @@ public class TrabalhadorRecursos {
 	
 	@GetMapping(value = "/{numeroId}")
 	public ResponseEntity<Trabalhador> findById(@PathVariable Long numeroId){
+		
+		verPortaLogg.info("PORT = " + envir.getProperty("local.server.port"));
+		
 		Trabalhador pessoa = repositorio.findById(numeroId).get();
 		return ResponseEntity.ok(pessoa);
 	}
