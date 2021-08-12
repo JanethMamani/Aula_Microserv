@@ -37,6 +37,12 @@ public class TrabalhadorRecursos {
 	@GetMapping(value = "/{numeroId}")
 	public ResponseEntity<Trabalhador> findById(@PathVariable Long numeroId){
 		
+		try {
+			Thread.sleep(3000L);
+		} catch (InterruptedException excecao) {
+			excecao.printStackTrace();
+		}
+		
 		verPortaLogg.info("PORT = " + envir.getProperty("local.server.port"));
 		
 		Trabalhador pessoa = repositorio.findById(numeroId).get();
